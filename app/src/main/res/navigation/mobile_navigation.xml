@@ -12,10 +12,10 @@
         tools:layout="@layout/fragment_home" />
 
     <fragment
-        android:id="@+id/nav_gallery"
-        android:name="com.max.z.ui.gallery.GalleryFragment"
-        android:label="@string/menu_gallery"
-        tools:layout="@layout/fragment_gallery" />
+        android:id="@+id/nav_bank_balance"
+        android:name="com.max.z.ui.bank_balance.Bank_BalanceFragment"
+        android:label="@string/menu_bank_balance"
+        tools:layout="@layout/fragment_bank_balance" />
 
     <fragment
         android:id="@+id/nav_slideshow"
