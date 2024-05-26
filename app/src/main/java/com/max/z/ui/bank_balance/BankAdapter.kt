@@ -21,10 +21,11 @@ class BankAdapter(private val bankList: List<Bank>) : RecyclerView.Adapter<BankA
     }
 
     override fun onBindViewHolder(holder: BankViewHolder, position: Int) {
-        val currentBank = bankList[position]
-        holder.bankName.text = currentBank.name
-        holder.bankType.text = currentBank.type
+        val currentItem = bankList[position]
+        holder.bankName.text = currentItem.name
+        holder.bankType.text = currentItem.type
     }
 
     override fun getItemCount() = bankList.size
 }
+
