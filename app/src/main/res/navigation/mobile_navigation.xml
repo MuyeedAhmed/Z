@@ -22,4 +22,11 @@
         android:name="com.max.z.ui.slideshow.SlideshowFragment"
         android:label="@string/menu_slideshow"
         tools:layout="@layout/fragment_slideshow" />
+
+    <fragment
+        android:id="@+id/nav_spending"
+        android:name="com.max.z.ui.spending.SpendingFragment"
+        android:label="@string/menu_spending"
+        tools:layout="@layout/fragment_spending" />
+
 </navigation>
