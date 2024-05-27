@@ -5,3 +5,9 @@ data class Bank(
     val name: String,
     val type: String
 )
+
+data class Stock(
+    val id: Long,
+    val name: String,
+    val quantity: Int
+)
