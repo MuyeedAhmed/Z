@@ -11,6 +11,7 @@
     <string name="menu_bank_balance">Bank Balance</string>
     <string name="menu_slideshow">Slideshow</string>
     <string name="menu_spending">Spending</string>
+    <string name="menu_misc">Misc</string>
     <!-- Strings used for fragments for navigation -->
     <string name="first_fragment_label">First Fragment</string>
     <string name="second_fragment_label">Second Fragment</string>

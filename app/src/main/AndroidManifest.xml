@@ -16,6 +16,12 @@
             android:name=".ui.AddBankActivity"
             android:exported="false" />
         <activity
+            android:name=".ui.misc.AddNew"
+            android:exported="false"/>
+        <activity
+            android:name=".NewActivity"
+            android:exported="false"/>
+        <activity
             android:name=".MainActivity"
             android:exported="true"
             android:label="@string/app_name"

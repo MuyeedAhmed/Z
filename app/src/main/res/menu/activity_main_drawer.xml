@@ -20,5 +20,9 @@
             android:id="@+id/nav_spending"
             android:icon="@drawable/baseline_money_off_24"
             android:title="@string/menu_spending" />
+        <item
+            android:id="@+id/nav_misc"
+            android:icon="@drawable/baseline_misc_24"
+            android:title="Misc"/>
     </group>
 </menu>

@@ -28,5 +28,9 @@
         android:name="com.max.z.ui.spending.SpendingFragment"
         android:label="@string/menu_spending"
         tools:layout="@layout/fragment_spending" />
-
+    <fragment
+        android:id="@+id/nav_misc"
+        android:name="com.max.z.ui.misc.MiscFragment"
+        android:label="@string/menu_misc"
+        tools:layout="@layout/fragment_misc" />
 </navigation>
