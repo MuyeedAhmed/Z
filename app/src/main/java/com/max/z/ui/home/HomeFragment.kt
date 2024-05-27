@@ -5,9 +5,11 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
+import android.widget.Button
+import android.widget.EditText
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.max.z.R
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -19,54 +21,79 @@ import org.json.JSONObject
 
 class HomeFragment : Fragment() {
 
-    private lateinit var homeViewModel: HomeViewModel
-    private lateinit var textAaplPrice: TextView
-    private lateinit var textSpyPrice: TextView
+    private lateinit var recyclerView: RecyclerView
+    private lateinit var stockAdapter: StockAdapter
+    private lateinit var addStockButton: Button
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         val root = inflater.inflate(R.layout.fragment_home, container, false)
-        textAaplPrice = root.findViewById(R.id.text_aapl_price)
-        textSpyPrice = root.findViewById(R.id.text_spy_price)
-        fetchStockPrices()
+
+        recyclerView = root.findViewById(R.id.recyclerView)
+        addStockButton = root.findViewById(R.id.addStockButton)
+
+        val stocks = mutableListOf<Stock>()
+        stockAdapter = StockAdapter(stocks)
+
+        recyclerView.layoutManager = LinearLayoutManager(context)
+        recyclerView.adapter = stockAdapter
+
+        addStockButton.setOnClickListener {
+            showAddStockDialog()
+        }
+
         return root
     }
 
-    private fun fetchStockPrices() {
+    private fun showAddStockDialog() {
+        val dialogView = LayoutInflater.from(context).inflate(R.layout.dialog_add_stock, null)
+        val editTextSymbol = dialogView.findViewById<EditText>(R.id.editTextSymbol)
+
+        val dialog = androidx.appcompat.app.AlertDialog.Builder(requireContext())
+            .setTitle("Add Stock")
+            .setView(dialogView)
+            .setPositiveButton("Add") { _, _ ->
+                val symbol = editTextSymbol.text.toString().uppercase()
+                if (symbol.isNotEmpty()) {
+                    addStock(Stock(symbol))
+                }
+            }
+            .setNegativeButton("Cancel", null)
+            .create()
+
+        dialog.show()
+    }
+
+    private fun addStock(stock: Stock) {
+        stockAdapter.addStock(stock)
+        fetchStockPrice(stock)
+    }
+
+    private fun fetchStockPrice(stock: Stock) {
         val client = OkHttpClient()
         val apiKey = "C3GD4N7DUDAEWBHR"  // Replace with your actual API key
 
         CoroutineScope(Dispatchers.IO).launch {
             try {
-                val aaplRequest = Request.Builder()
-                    .url("https://www.alphavantage.co/query?function=GLOBAL_QUOTE&symbol=AAPL&apikey=$apiKey")
+                val request = Request.Builder()
+                    .url("https://www.alphavantage.co/query?function=GLOBAL_QUOTE&symbol=${stock.symbol}&apikey=$apiKey")
                     .build()
-                val aaplResponse = client.newCall(aaplRequest).execute()
-                val aaplResponseBody = aaplResponse.body?.string()
-                Log.d("HomeFragment", "AAPL Response: $aaplResponseBody")
-                val aaplJson = JSONObject(aaplResponseBody)
-                val aaplPrice = aaplJson.getJSONObject("Global Quote")
-                    .getString("05. price")
-
-                val spyRequest = Request.Builder()
-                    .url("https://www.alphavantage.co/query?function=GLOBAL_QUOTE&symbol=SPY&apikey=$apiKey")
-                    .build()
-                val spyResponse = client.newCall(spyRequest).execute()
-                val spyResponseBody = spyResponse.body?.string()
-                Log.d("HomeFragment", "SPY Response: $spyResponseBody")
-                val spyJson = JSONObject(spyResponseBody)
-                val spyPrice = spyJson.getJSONObject("Global Quote")
+                val response = client.newCall(request).execute()
+                val responseBody = response.body?.string()
+                Log.d("HomeFragment", "Response for ${stock.symbol}: $responseBody")
+                val json = JSONObject(responseBody)
+                val price = json.getJSONObject("Global Quote")
                     .getString("05. price")
 
                 withContext(Dispatchers.Main) {
-                    textAaplPrice.text = "AAPL: $aaplPrice"
-                    textSpyPrice.text = "SPY: $spyPrice"
+                    stock.price = price
+                    stockAdapter.notifyDataSetChanged()
                 }
             } catch (e: Exception) {
                 e.printStackTrace()
-                Log.e("HomeFragment", "Error fetching stock prices", e)
+                Log.e("HomeFragment", "Error fetching stock price for ${stock.symbol}", e)
             }
         }
     }
