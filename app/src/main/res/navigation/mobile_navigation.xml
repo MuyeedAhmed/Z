@@ -18,10 +18,10 @@
         tools:layout="@layout/fragment_bank_balance" />
 
     <fragment
-        android:id="@+id/nav_slideshow"
-        android:name="com.max.z.ui.slideshow.SlideshowFragment"
-        android:label="@string/menu_slideshow"
-        tools:layout="@layout/fragment_slideshow" />
+        android:id="@+id/nav_stock"
+        android:name="com.max.z.ui.stock.StockFragment"
+        android:label="@string/menu_stock"
+        tools:layout="@layout/fragment_stock" />
 
     <fragment
         android:id="@+id/nav_spending"

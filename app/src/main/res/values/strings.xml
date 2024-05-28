@@ -9,7 +9,7 @@
 
     <string name="menu_home">Home</string>
     <string name="menu_bank_balance">Bank Balance</string>
-    <string name="menu_slideshow">Slideshow</string>
+    <string name="menu_stock">Stock</string>
     <string name="menu_spending">Spending</string>
     <!-- Strings used for fragments for navigation -->
     <string name="first_fragment_label">First Fragment</string>
